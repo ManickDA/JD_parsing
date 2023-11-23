@@ -157,7 +157,7 @@ else:
                                                        'Experience', 'Skill_Similarity', 'Matched_Skills'
                                                        ])
 
-        df_xlsx = pd.read_csv(r"C:\Users\Manic\OneDrive\Desktop\JD\githup\resumes_drp_null_updated.csv")
+        df_xlsx = pd.read_csv(r"resumes_drp_null_updated.csv")
 
         # Rename the column in df_xlsx to match the column name in df_csv
         df_xlsx.rename(columns={'resume_index': 'Sl.No'}, inplace=True)
