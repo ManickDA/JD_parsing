@@ -132,6 +132,7 @@ else:
         st.write(f"SKILLS REQUIRED: {jd_skills}")
         st.write(f"EXPERIENCE REQUIRED: {jd_experience}")
 
+       
         threshold = 90
         final_list = []
 
@@ -156,6 +157,16 @@ else:
                                                        'Experience', 'Skill_Similarity', 'Matched_Skills'
                                                        ])
 
+        df_xlsx = pd.read_csv(r"C:\Users\Manic\OneDrive\Desktop\JD\githup\resumes_drp_null_updated.csv")
+
+        # Rename the column in df_xlsx to match the column name in df_csv
+        df_xlsx.rename(columns={'resume_index': 'Sl.No'}, inplace=True)
+
+        # Merge the datasets on the column with equal values
+        # Keep only the columns you need in the final result
+        final_data = pd.merge(final_data, df_xlsx[
+            ['Sl.No', 'Name', 'Phone Number', 'Email id', 'Location of work', 'Position Applied For']], on='Sl.No')
+
         final_data['Experience_Tag'] = final_data[['JD_Experience', 'Experience']].apply(
             lambda x: 1 if x['Experience'] >= x['JD_Experience'] else 0, axis=1)
 
@@ -164,9 +175,9 @@ else:
 
         final_data = final_data.sort_values(['Matching_Score'], ascending=[False]).reset_index(drop=True)
         final_data['Matching_Score'] = final_data['Matching_Score'].apply(lambda x: str(int(x * 100)) + '%')
-
-        top_5_matches = final_data.head()
-        top_5_matches = top_5_matches[
-            ['Sl.No', 'Matching_Score', 'Experience', 'Matched_Skills', 'Additional_skills']]
-
+        top_5_matches = final_data[
+            ['Sl.No', 'Name', 'Matching_Score', 'Experience', 'Matched_Skills', 'Additional_skills', 'Phone Number',
+             'Email id']]
+        # final_data.to_csv('final_fnsh.csv',index=False)
+        top_5_matches=top_5_matches.head(5)
         top_5_matches
